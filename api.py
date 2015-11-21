@@ -1,4 +1,6 @@
-import sys, re, time, io, os
+import re, time, os, json
+from datetime import datetime, date
+
 def application(environ, start_response):
 
 	exams = []
@@ -25,25 +27,38 @@ def application(environ, start_response):
 			# split on 2 or more spaces
 			exams.append( re.split(' {2,}', row))
 
-	for exam in exams:
-		exam[5] = time.strptime(exam[5], "%d.%m.") 
-
-	exams.sort(key=lambda x: x[5])
-
-	output = ""
+	result = []
 
 	for exam in exams:
-		output += ((exam[4] + " ").ljust(12) + \
-		(exam[3] + " ").ljust(7) + \
-		exam[0] + '\n')
+		hour_start = exam[3].split("-")[0]
+		hour_end = exam[3].split("-")[1]
 
-	output = output.encode('utf-8')
+		t = datetime.strptime(exam[5], "%d.%m.") 
+		t = t.replace(year=date.today().year)
+		
+		dateTime = '{year}-{month}-{day}T'.format(year=t.year, month=t.month, day=t.day)
+
+		result.append({
+			"summary": exam[0],
+			'location': exam[2] + ', School of Computing, Kneza Mihaila 6, Beograd 11000',
+			'description': exam[1],
+			'start': {
+				'dateTime': dateTime+'{hour}:00:00'.format(hour=hour_start),
+				'timeZone': 'Europe/Belgrade'
+			},
+			'end': {
+				'dateTime': dateTime+'{hour}:00:00'.format(hour=hour_end),
+				'timeZone': 'Europe/Belgrade'
+			}
+		}) 
+
+	output = json.dumps(result).encode('utf-8')
 
 	# print >> environ['wsgi.errors'], output
 
 	status = "200 OK"
 	
-	response_headers = [('Content-type', 'text/plain; charset=utf-8'),
+	response_headers = [('Content-type', 'application/json; charset=utf-8'),
 						('Content-Length', str(len(output)))]
 	start_response(status, response_headers)
 
