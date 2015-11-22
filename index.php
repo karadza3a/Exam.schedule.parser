@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script type="text/javascript">
 			// Your Client ID can be retrieved from your project in the Google
 			// Developer Console, https://console.developers.google.com
@@ -29,6 +30,7 @@
 				if (authResult && !authResult.error) {
 					// Hide auth UI, then load client library.
 					authorizeDiv.style.display = 'none';
+					$("#pleaseWait").show();
 					loadCalendarApi();
 				} else {
 					// Show auth UI, allowing the user to initiate authorization by
@@ -61,24 +63,43 @@
 			* TODO
 			*/
 			function listCalendars() {
-				var request = gapi.client.calendar.calendarList.list({
-				});
+				var request = gapi.client.calendar.calendarList.list({});
 
 				request.execute(function(resp) {
 					var calendars = resp.items;
-					appendPre('Upcoming calendars:');
 
 					if (calendars.length > 0) {
 						for (i = 0; i < calendars.length; i++) {
 							var calendar = calendars[i];
-							console.log(calendar);
-							appendPre(calendar.summary + ' (' + calendar.id + ')')
+							if(calendar.accessRole == 'writer'
+								|| calendar.accessRole == 'owner' )
+							$("#calendars").append(
+								$('<option />')
+									.attr('value', calendar.id)
+									.html( calendar.summary )
+							);
 						}
-					} else {
-						appendPre('No calendars found.');
 					}
-
+					$("#calendars").chosen({width: "450px"});
+					listSubjects();
 				});
+			}
+			function listSubjects () {
+				$.ajax({
+				  url: "api.py",
+				  success: function(result){
+				  	for (var i = 0; i < result.length; i++) {
+						$("#subjects").append(
+							$('<option />')
+								.attr('value', result[i] )
+								.html( result[i] )
+						);
+				  	};
+					$("#subjects").chosen({width: "450px"});
+				  }
+				});
+				$("#pleaseWait").hide();
+				$("#addAllButton").show();
 			}
 
 			function addCalendar () {
@@ -99,35 +120,50 @@
 				  'resource': resource
 				});
 				request.execute(function(resp) {
-				  console.log(resp);
+				  if(resp.status == "confirmed"){
+				  	toastr.success('Success', resp.summary);
+				  }else{
+					toastr.warning('Something may have gone wrong.');
+				  }
 				});
 			}
 
 			function addAll () {
-				var resource = {
-							  "summary": "Thingy ",
-							  "start": {
-							    "dateTime": "2015-11-21T10:00:00.000-07:00"
-							  },
-							  "end": {
-							    "dateTime": "2015-11-21T10:25:00.000-07:00"
-							  }
-							};
-			}
-			/**
-			* Append a pre element to the body containing the given message
-			* as its text node.
-			*
-			* @param {string} message Text to be placed in pre element.
-			*/
-			function appendPre(message) {
-				var pre = document.getElementById('output');
-				var textContent = document.createTextNode(message + '\n');
-				pre.appendChild(textContent);
+				if($("#calendars").val() == null){
+					alert("Please select a writeable calendar.")
+					return;
+				}
+				if($("#subjects").val() == null){
+					alert("Please select your subjects.")
+					return;
+				}
+				calendarId = $("#calendars").val();
+				$.ajax({
+				  url: "api.py",
+				  data: {
+				  	subjects: $("#subjects").val()
+				  },
+				  success: function(result){
+				  	for (var i = 0; i < result.length; i++) {
+				  		addEvent( result[i], calendarId);
+				  	};
+				  }
+				});
 			}
 
 		</script>
+
+		<script src="libs/chosen.jquery.min.js"></script>
+		<link rel="stylesheet" href="libs/chosen.min.css" />
+		
+		<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 		<script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+		<script type="text/javascript">
+			// $(document).ready(function () {
+			// });
+		</script>
 	</head>
 	<body>
 		<div id="authorize-div" style="display: none">
@@ -137,6 +173,15 @@
 				Authorize
 			</button>
 		</div>
-		<pre id="output"></pre>
+		<div id="content">
+			<select id="calendars" class="chosen-select" style="display:none; width: 200px">
+			</select><br>
+			<select data-placeholder="Choose your subjects..." id="subjects" multiple class="chosen-select" style="display:none; width: 200px">
+			</select><br>
+			<span id="pleaseWait" style="display: none">Please wait...</span>
+			<button id="addAllButton" onclick="addAll()" style="display: none">
+				Add to calendar
+			</button>
+		</div>
 	</body>
 </html>
