@@ -81,9 +81,21 @@
 						}
 					}
 					$("#calendars").chosen({width: "450px"});
-					listSubjects();
+					checkSchedulePdf();
 				});
 			}
+
+			function checkSchedulePdf () {
+				$.ajax({
+				  url: "fetch-schedule.php",
+				  success: function(result){
+					toastr.info('Pdf last updated: '+result);
+					listSubjects();
+				  }
+				});
+
+			}
+
 			function listSubjects () {
 				$.ajax({
 				  url: "api.py",
