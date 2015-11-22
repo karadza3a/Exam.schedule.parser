@@ -80,7 +80,11 @@
 							);
 						}
 					}
-					$("#calendars").chosen({width: "450px"});
+					if (chosen_browser_is_supported()) {
+						$("#calendars").chosen({width: "450px"});
+					}else{
+						$("#calendars").show();
+					}
 					checkSchedulePdf();
 				});
 			}
@@ -107,7 +111,11 @@
 								.html( result[i] )
 						);
 				  	};
-					$("#subjects").chosen({width: "450px"});
+					if (chosen_browser_is_supported()) {
+						$("#subjects").chosen({width: "450px"});
+					}else{
+						$("#subjects").show();
+					}
 				  }
 				});
 				$("#pleaseWait").hide();
@@ -163,6 +171,20 @@
 				});
 			}
 
+			chosen_browser_is_supported = function() {
+				if (window.navigator.appName === "Microsoft Internet Explorer") {
+					return document.documentMode >= 8;
+				}
+				if (/iP(od|hone)/i.test(window.navigator.userAgent)) {
+					return false;
+				}
+				if (/Android/i.test(window.navigator.userAgent)) {
+					if (/Mobile/i.test(window.navigator.userAgent)) {
+						return false;
+					}
+				}
+				return true;
+			};
 		</script>
 
 		<script src="libs/chosen.jquery.min.js"></script>
