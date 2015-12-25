@@ -64,7 +64,7 @@ def parseExams(environ, start_response, subjects):
 		hour_end = exam[3].split("-")[1]
 
 		t = datetime.strptime(exam[5], "%d.%m.") 
-		t = t.replace(year=date.today().year)
+		t = t.replace(year=2016)
 		
 		dateTime = '{year}-{month}-{day}T'.format(year=t.year, month=t.month, day=t.day)
 
