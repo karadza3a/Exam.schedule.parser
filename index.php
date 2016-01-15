@@ -200,6 +200,10 @@
 		</script>
 	</head>
 	<body>
+		<h1>Exam schedule parser</h1>
+		<h3>Add exams as events to your Google calendar.</h3>
+		<p>Active schedule: <a href="https://www.raf.edu.rs/Rasporedi/Ispitni%20rokovi/2015-2016/Januarski_rok.pdf">January finals</a>. Code available on <a href="https://github.com/karadza3a/Exam.schedule.parser">GitHub</a>.</p>
+
 		<div id="authorize-div" style="display: none">
 			<span>Authorize access to Google Calendar API</span>
 			<!--Button for the user to click to initiate auth sequence -->
