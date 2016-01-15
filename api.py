@@ -27,6 +27,7 @@ def listSubjects(environ, start_response):
 			subjects.append( re.split(' {2,}', row)[0] )
 	
 	subjects.remove('Poslovne aplikacije');
+	subjects.remove('Uvod u programiranje');
 	
 	subjects = list(set(subjects))
 	subjects.sort()
