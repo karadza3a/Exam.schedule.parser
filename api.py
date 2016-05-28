@@ -26,7 +26,6 @@ def listSubjects(environ, start_response):
 		if len(row) > 0 and row[0].isupper():
 			subjects.append( re.split(' {2,}', row)[0] )
 	
-	subjects.remove('Poslovni softver');
 	
 	subjects = list(set(subjects))
 	subjects.sort()
