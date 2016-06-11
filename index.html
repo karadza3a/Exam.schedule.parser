@@ -2,33 +2,29 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <!-- Meta data for SEO and social media websites -->
+    
     <title>Exam shedule parser</title>
-    <!-- Viewport settings -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!--Libraries-->
 
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300italic' rel='stylesheet' type='text/css'>
-    <!--Main stylesheet -->
-    <link href="libs/css/main.css" rel="stylesheet">
-    <link href="libs/css/animate.css" rel="stylesheet">
-    <link href="libs/chosen.bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
-    <!-- Modals -->
-    <link rel="icon" type="image/png" href="img/favico.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300italic' rel='stylesheet' />
+    <link href="libs/css/main.css" rel="stylesheet" />
+    <link href="libs/chosen.bootstrap.min.css" rel="stylesheet" />
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
+    <!-- <link rel="icon" type="image/png" href="img/favico.png"> -->
 
 </head>
 <body>
     <div class="container">
         <div id="content">
-            <h2>Exam schedćčule parser</h2>
+            <h2>Exam schedule parser</h2>
             <h3>Add exams as events to your Google calendar.</h3>
             <p>Active schedule: <a href="https://www.raf.edu.rs/Rasporedi/Ispitni%20rokovi/2015-2016/Junski_rok.pdf">June finals</a>. Code available on <a href="https://github.com/karadza3a/Exam.schedule.parser">GitHub</a>.</p>
 
             <div id="authorize-div" class="collapse">
                 <h3>Authorize access to Google Calendar API</h3>
-                <!--Button for the user to click to initiate auth sequence -->
                 <button id="authorize-button" onclick="handleAuthClick(event)">
                     Authorize
                 </button>

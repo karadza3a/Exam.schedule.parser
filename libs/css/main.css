@@ -1,0 +1,25 @@
+body { background: #1A1C23; font-family: 'Open Sans'; }
+
+.middle-box { height: 500px; width: 500px; position: absolute; top: 50%; left: 50%; margin-top: -250px; margin-left: -250px; z-index: 100; text-align: center; }
+
+h1 { margin-top: -300px; font-size: 90px; }
+h2 { font-family: 'Open Sans', sans-serif; color: #ED304F;}
+h3 { font-family: 'Open Sans', sans-serif; color: white; margin-top: 0px; font-size: 1.25em; }
+p { font-family: 'Open Sans', sans-serif; font-weight: 300; color: #999; }
+label { font-family: 'Open Sans', sans-serif; font-weight: 300; color: #999; float:none; }
+
+.text-field { width: 100%; padding-top: 10px; padding-bottom: 10px; background: #23262f; border: 1px solid  #18191f; color: white; font-family: 'Open Sans', sans-serif; margin-bottom: 20px; padding-left: 20px; }
+
+.textarea { width: 100%; padding-top: 10px; padding-bottom: 10px; background: #23262f; border: 1px solid  #131419; color: white; font-family: 'Open Sans', sans-serif; margin-bottom: 20px; padding-left: 20px; }
+
+.text-field:focus { outline: 1px solid #ED304F; }
+
+@media all and (min-width: 0px) and (max-width: 992px) { .form-middle-box { height: auto; width: 90%; margin-left: 5%; top: 0; left: 0; margin-top: 40px; margin-bottom: 50px; z-index: 100; text-align: center; } }
+@media all and (min-width: 250px) and (max-width: 500px) { .middle-box { height: 300px; width: 300px; position: absolute; position: absolute; top: 50%; left: 50%; margin-top: -150px; margin-left: -150px; z-index: 100; text-align: center; }
+  h1 { margin-top: -150px; font-size: 50px; }
+  h3 { font-size: 1em; } }
+@media all and (min-width: 150px) and (max-width: 250px) { .middle-box { height: 200px; width: 200px; position: absolute; position: absolute; top: 50%; left: 50%; margin-top: -100px; margin-left: -100px; z-index: 100; text-align: center; }
+  h1 { margin-top: 50px; font-size: 50px; }
+  h3 { font-size: 1em; } }
+
+/*# sourceMappingURL=main.css.map */
