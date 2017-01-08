@@ -26,7 +26,6 @@ def listSubjects(environ, start_response):
 		if len(row) > 0 and row[0].isupper():
 			subjects.append( re.split(' {2,}', row)[0] )
 	
-	
 	subjects = list(set(subjects))
 	subjects.sort()
 
@@ -59,26 +58,35 @@ def parseExams(environ, start_response, subjects):
 	result = []
 
 	for exam in exams:
-		hour_start = exam[3].split("-")[0]
-		hour_end = exam[3].split("-")[1]
-
-		t = datetime.strptime(exam[5], "%d.%m.") 
-		t = t.replace(year=2016)
+		try:
+			t = datetime.strptime(exam[5], "%d.%m.") 
+		except:
+			t = datetime.strptime(exam[4], "%d.%m.") 
 		
-		dateTime = '{year}-{month}-{day}T'.format(year=t.year, month=t.month, day=t.day)
+		t = t.replace(year=2017)
+		date = '{year}-{month}-{day}T'.format(year=t.year, month=t.month, day=t.day)
+		
+		try:
+			hour_start = exam[3].split("-")[0]
+			hour_end = exam[3].split("-")[1]
+			start = {'dateTime': date+'{hour}:00:00'.format(hour=hour_start),
+			         'timeZone': 'Europe/Belgrade'}
+			end = {'dateTime': date+'{hour}:00:00'.format(hour=hour_end),
+			       'timeZone': 'Europe/Belgrade'}
+		except IndexError:
+			start = {'date': date,
+			         'timeZone': 'Europe/Belgrade'}
+			end = {'date': date,
+			       'timeZone': 'Europe/Belgrade'}
+			
+
 
 		result.append({
 			"summary": exam[0],
 			'location': exam[2] + ', School of Computing, Kneza Mihaila 6, Beograd 11000, Serbia',
 			'description': exam[1],
-			'start': {
-				'dateTime': dateTime+'{hour}:00:00'.format(hour=hour_start),
-				'timeZone': 'Europe/Belgrade'
-			},
-			'end': {
-				'dateTime': dateTime+'{hour}:00:00'.format(hour=hour_end),
-				'timeZone': 'Europe/Belgrade'
-			}
+			'start': start,
+			'end': end
 		}) 
 
 	output = json.dumps(result).encode('utf-8')
@@ -92,5 +100,3 @@ def parseExams(environ, start_response, subjects):
 	start_response(status, response_headers)
 
 	return [output]
-
-

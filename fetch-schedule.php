@@ -5,5 +5,5 @@
 		echo exec("./fetch-schedule.sh");
 		clearstatcache();
 	}
-	echo date ("F d Y H:i:s.", filemtime($filename));
+	echo date("U", filemtime($filename));
 ?>
