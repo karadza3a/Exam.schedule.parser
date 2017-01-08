@@ -89,7 +89,7 @@ function checkSchedulePdf () {
     $.ajax({
         url: "fetch-schedule.php",
         success: function(result){
-            toastr.info('Pdf last updated: ' + (new Date(result)).toUTCString());
+            toastr.info('Pdf last updated: ' + (new Date(parseInt(result))).toUTCString());
             listSubjects();
         }
     });
