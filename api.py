@@ -74,9 +74,9 @@ def parseExams(environ, start_response, subjects):
 			end = {'dateTime': date+'{hour}:00:00'.format(hour=hour_end),
 			       'timeZone': 'Europe/Belgrade'}
 		except IndexError:
-			start = {'date': date,
+			start = {'date': date[:-1],
 			         'timeZone': 'Europe/Belgrade'}
-			end = {'date': date,
+			end = {'date': date[:-1],
 			       'timeZone': 'Europe/Belgrade'}
 			
 
